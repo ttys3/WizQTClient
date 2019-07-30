@@ -11,8 +11,8 @@
 #ifdef Q_OS_MAC
 #include "mac/WizMacHelper.h"
 #include <QTimer>
-#include <QMimeData>
 #endif
+#include <QMimeData>
 #include <QWebEngineProfile>
 #include <QWebEngineScript>
 #include <QWebEngineScriptCollection>
