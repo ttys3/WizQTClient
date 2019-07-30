@@ -1,6 +1,6 @@
 # Maintainer: Albert.Zhou <albert.zhou@wiz.cn>
 pkgname=wiznote
-pkgver=2.5.5
+pkgver=2.7.6
 pkgrel=1
 pkgdesc="Opensource cross-platform cloud based note-taking client"
 arch=('i686' 'x86_64')
@@ -9,11 +9,11 @@ license=('GPL3' 'custom')
 depends=('desktop-file-utils' 'hicolor-icon-theme' 'xdg-utils' 'qt5-base' 'qt5-webengine' 'qt5-websockets' 'openssl-1.0') # indirect: qt5-declarative qt5-sensors zlib glic gcc-libs
 makedepends=('cmake>=2.8.9' 'qt5-tools')
 install=wiznote.install
-#source=("$pkgname::git+https://github.com/WizTeam/WizQTClient.git#tag=$pkgver") # Use git is too slow
-#md5sums=('SKIP')
+#source=("$pkgname::git+https://github.com/ttys3/WizQTClient.git#tag=$pkgver") # Use git is too slow
+md5sums=('SKIP')
 _wiznote_project_name="WizQTClient"
-source=("$pkgname.tar.gz::https://github.com/WizTeam/WizQTClient/archive/$pkgver.zip")
-md5sums=('74350d8bc09bfbb5145ed761fc77e9c1')
+source=("$pkgname.tar.gz::https://github.com/ttys3/WizQTClient/archive/$pkgver.zip")
+#md5sums=('74350d8bc09bfbb5145ed761fc77e9c1')
 
 build() {
 	cd "$srcdir/$_wiznote_project_name-${pkgver}"
