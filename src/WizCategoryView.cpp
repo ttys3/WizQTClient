@@ -204,6 +204,8 @@ WizCategoryBaseView::WizCategoryBaseView(WizExplorerApp& app, QWidget* parent)
 
 WizCategoryBaseView::~WizCategoryBaseView()
 {
+    disconnect();
+    //
     if (!m_dragHoveredTimer) {
         m_dragHoveredTimer->stop();
         delete m_dragHoveredTimer;
@@ -2440,6 +2442,29 @@ void WizCategoryView::on_action_user_copyFolder_confirmed(int result)
     }
 }
 
+//
+
+void WizApplyDarkModeStyles_lineEditor(QObject* parent)
+{
+    if (isDarkMode()) {
+        for (QObject* child : parent->children()) {
+
+            if (QWidget* childWidget = dynamic_cast<QWidget*>(child)) {
+                //
+                QString className = child->metaObject()->className();
+                //
+                qDebug() << className << childWidget->geometry();
+                //
+                if (QWidget* widget = dynamic_cast<QLineEdit*>(child)) {
+                    widget->setStyleSheet("color:#a6a6a6;background-color:#333333");
+                }
+            }
+            //
+            WizApplyDarkModeStyles_lineEditor(child);
+        }
+    }
+}
+
 void WizCategoryView::on_action_renameItem()
 {
     QTreeWidgetItem* p = currentItem();
@@ -2460,6 +2485,13 @@ void WizCategoryView::on_action_renameItem()
         }
         p->setFlags(p->flags() | Qt::ItemIsEditable);
         editItem(p, 0);
+        //
+        if (isDarkMode()) {
+            //QTimer::singleShot(1000, [this] {
+                WizApplyDarkModeStyles_lineEditor(this);
+            //});
+        }
+
     }
 }
 

@@ -59,6 +59,8 @@ function WizEditorInit(basePath, browserLang, userGUID, userAlias, ignoreTable, 
       editor: {
         callback: {
           onKeyDown: WizOnKeyDown,
+          markerUndo: WizOnUndoStatusChanged,
+          markerInitiated: WizOnMarkerInitiated,
         }
       }
     }
@@ -75,7 +77,7 @@ function WizEditorInit(basePath, browserLang, userGUID, userAlias, ignoreTable, 
 
 function WizOnSelectionChange(style) {
   try {
-    WizQtEditor.OnSelectionChange(JSON.stringify(style));
+    WizQtEditor.onSelectionChange(JSON.stringify(style));
   } catch (e) {
 
   }
@@ -94,6 +96,12 @@ function WizOnKeyDown(event) {
           console.error(err);
         }
       }
+    } else if (event.charCode === 99 && event.metaKey) {
+        try {
+            WizQtEditor.doCopy();
+        } catch (err) {
+            console.error(err);
+        }
     }
   } catch (e) {
     console.error(e);
@@ -101,6 +109,15 @@ function WizOnKeyDown(event) {
     return true;
   }
 }
+
+function WizOnUndoStatusChanged(data) {
+  WizQtEditor.onMarkerUndoStatusChanged(data);
+}
+
+function WizOnMarkerInitiated(data) {
+  WizQtEditor.onMarkerInitiated(data);
+}
+
 
 
 function WizAddCssForCode(cssFile) {
