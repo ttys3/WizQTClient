@@ -3413,7 +3413,7 @@ void WizMainWindow::on_actionGoForward_triggered()
     m_doc->setFocus();
 }
 
-void WizMainWindow::on_category_itemSelectionChanged()
+void WizMainWindow::processCategoryItemChanged()
 {
     WizCategoryBaseView* category = m_category;
     if (!category)
@@ -3508,6 +3508,13 @@ void WizMainWindow::on_category_itemSelectionChanged()
         m_searchWidget->setCurrentKb(kbGuid);
     }
 }
+void WizMainWindow::on_category_itemSelectionChanged()
+{
+    processCategoryItemChanged();
+    if (!m_category->selectedItems().isEmpty()) {
+        m_category->clearStoredSelection();
+    }
+}
 
 void WizMainWindow::showTrash()
 {
@@ -3517,10 +3524,11 @@ void WizMainWindow::showTrash()
     {
         WizExecuteOnThread(WIZ_THREAD_NETWORK, [=](){
             QString strToken = WizToken::token();
-            QString strUrl = WizCommonApiEntry::makeUpUrlFromCommand("deleted_recovery", strToken, "&kb_guid=" + trashItem->kbGUID());
+            QString* strUrl = new QString(WizCommonApiEntry::makeUpUrlFromCommand("deleted_recovery", strToken, "&kb_guid=" + trashItem->kbGUID()));
             WizExecuteOnThread(WIZ_THREAD_MAIN, [=](){
                 m_subContainer->setCurrentIndex(1);
-                m_mainWebView->load(strUrl);
+                m_mainWebView->load(*strUrl);
+                delete strUrl;
             });
         });
     }

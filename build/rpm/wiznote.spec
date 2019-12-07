@@ -1,15 +1,15 @@
 Name:		WizNote
-Version:	2.1.0
+Version:	2.8.2
 Release:	1%{?dist}
 Summary:	WizNote QT Client
 
 Group:		Application
 License:	GPLv3
 URL:		http://wiz.cn/
-Source0:	WizQTClient.tbz2
+Source0:	https://github.com/WizTeam/WizQTClient/archive/2.8.2.tar.gz#/WizQTClient-%{version}.tar.gz
 
 BuildRequires:	cmake gcc
-Requires:	Qt
+Requires:	qt5-qtbase qt5-qtwebengine qt5-qtwebsockets openssl qt5-qttools libstdc++
 
 %description
 
@@ -30,7 +30,7 @@ Requires:	Qt
 
 
 %build
-cmake WizQTClient
+cmake -DWIZNOTE_USE_QT5=YES -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release WizQTClient
 make %{?_smp_mflags}
 
 
